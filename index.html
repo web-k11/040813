@@ -534,8 +534,14 @@ const INCREMENT = 50;
 let isFetching = false;
 let renderTaskId = null;
 const SHEET_ID = '1X9oUszvFRys8LKjpbH3VpdFE99incfeL-D52JXV4eqk';
-const CACHE_KEY_SONGS = `app_songs_data_${SHEET_ID}`;
-const CACHE_KEY_TITLE = `app_title_data_${SHEET_ID}`;
+
+const proxyEndpoint = 'https://script.google.com/macros/s/AKfycbyaehYrOklSwtTs5Cg89Jc_9BwR88J0JWHlOMP03w7lG2X7Y6XcsC-1Exf7EkEKbhlDfQ/exec';
+
+const gasIdMatch = proxyEndpoint.match(/\/s\/([^\/]+)/);
+const uniqueGasId = gasIdMatch ? gasIdMatch[1] : 'default_id';
+
+const CACHE_KEY_SONGS = `app_songs_data_${uniqueGasId}`;
+const CACHE_KEY_TITLE = `app_title_data_${uniqueGasId}`;
 
 // DOM 元素
 const searchInput = document.getElementById('search-input');
@@ -725,7 +731,7 @@ async function fetchSheetData(isSilent = false) {
       enableDataProxy: true
     };
     
-    const proxyEndpoint = 'https://script.google.com/macros/s/AKfycbyaehYrOklSwtTs5Cg89Jc_9BwR88J0JWHlOMP03w7lG2X7Y6XcsC-1Exf7EkEKbhlDfQ/exec';
+    // const proxyEndpoint = 'https://script.google.com/macros/s/AKfycbyaehYrOklSwtTs5Cg89Jc_9BwR88J0JWHlOMP03w7lG2X7Y6XcsC-1Exf7EkEKbhlDfQ/exec';
     const targetUrl = `${proxyEndpoint}?t=${new Date().getTime()}`;
 
     const response = await fetch(targetUrl);
@@ -1409,4 +1415,5 @@ function getLanguageClass(language) {
 </script>
 </body>
 </html>
+
 
